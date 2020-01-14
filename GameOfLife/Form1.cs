@@ -13,8 +13,7 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[5, 5];
-        bool[,] scratchPad = new bool[5, 5];
+        bool[,] universe = new bool[20, 20];
         public int AliveCell { get; private set; }
 
         // Drawing colors
@@ -36,91 +35,87 @@ namespace GameOfLife
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
-
-        private void Count(int x, int y)
+        //int[,] Neighbors { get; set; }
+        private int CountNeighbors(int x, int y)
         {
-            AliveCell = 0;
-        }
-        private void Check(int x, int y)
-        {
-            if (scratchPad[x, y])
-            {
-
-                if (Neighbors[x, y] < 2 || Neighbors[x, y] > 3)
+            int count = 0;
+                //Bottom Left
+                if (x - 1 >= 0 && y - 1 >= 0 && universe[x - 1, y - 1])
                 {
-                    scratchPad[x, y] = true;
-
+                    count++;
                 }
-                else
+                //Bottem Middle
+                if (y - 1 >= 0 && universe[x, y - 1])
                 {
-                    scratchPad[x, y] = false;
+                    count++;
                 }
-            }
-            else
-            {
-                if (Neighbors[x,y] == 3)
+                //Bottem Right
+                if (x + 1 < universe.GetLength(0) && y - 1 >= 0 && universe[x + 1, y - 1])
                 {
-                    scratchPad[x, y] = true;
+                    count++;
                 }
-            }
-        }
-        int[,] Neighbors { get; set; }
-        private void CountNeighbors(int x, int y)
-        {
-            int posx = x;
-            int posy = y;
-            if (universe[posx, posy])
-            {
-                if (x - 1 > 0 && y - 1 > 0 && universe[x - 1, y - 1])
+                //Middle Left
+                if (x - 1 >= 0 && universe[x - 1, y])
                 {
-                    Neighbors[posx, posy]++;
+                    count++;
                 }
-                if (y - 1 > 0 && universe[x, y - 1])
+                //Middle Right
+                if (x + 1 < universe.GetLength(0) && universe[x + 1, y])
                 {
-                    Neighbors[posx, posy]++;
+                    count++;
                 }
-                if (x + 1 > universe.GetLength(0) && y - 1 > universe.GetLength(1) && universe[x - 1, y - 1])
+                //Top Left
+                if (x - 1 >= 0 && y + 1 < universe.GetLength(1) && universe[x-1, y + 1])
                 {
-                    Neighbors[posx, posy]++;
+                    count++;
                 }
-                if (x - 1 > 0 && universe[x - 1, y])
+                //Top Middle
+                if (y + 1 < universe.GetLength(1) && universe[x, y + 1])
                 {
-                    Neighbors[posx, posy]++;
+                    count++;
                 }
-                if (x + 1 > universe.GetLength(0) && universe[x - 1, y])
+                //Top Right
+                if (x + 1 < universe.GetLength(0) && y + 1 < universe.GetLength(1) && universe[x + 1, y + 1])
                 {
-                    Neighbors[posx, posy]++;
+                    count++;
                 }
-                if (x - 1 > 0 && y + 1 >0 && universe[x-1, y + 1])
-                {
-                    Neighbors[posx, posy]++;
-                }
-                if (y + 1 > 0 && universe[x, y + 1])
-                {
-                    Neighbors[posx, posy]++;
-                }
-                if (x + 1 > 0 && y + 1 > 0 && universe[x + 1, y + 1])
-                {
-                    Neighbors[posx, posy]++;
-                }
-            }
+            
+            return count;
         }
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-            AliveCell = 0;
-            bool[,] temp = universe;
-            scratchPad = new bool[universe.GetLength(0), universe.GetLength(1)];
-            scratchPad = temp;
-            for (int y = 0; y < universe.GetLength(1);)
+            AliveCell = 0;            
+            bool[,] scratchPad = new bool[universe.GetLength(0), universe.GetLength(1)];
+            for (int y = 0; y < universe.GetLength(1); y++)
             {
-                for (int x = 0; x < universe.GetLength(0);)
+                for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    Check(x, y);
+                    if (universe[x, y])
+                    {
+
+                        if (CountNeighbors(x, y) < 2 || CountNeighbors(x, y) > 3)
+                        {
+                            scratchPad[x, y] = false;
+
+                        }
+                        else
+                        {
+                            scratchPad[x, y] = true;
+                        }
+                    }
+                    else
+                    {
+                        if (CountNeighbors(x, y) == 3)
+                        {
+                            scratchPad[x, y] = true;
+                        }
+                    }
                 }
             }
-
+            bool[,] temp = universe;
             universe = scratchPad;
+            scratchPad = temp;
             // Increment generation count
             generations++;
 
@@ -164,18 +159,18 @@ namespace GameOfLife
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
                     Font font = new Font("Arial", 20f);
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Center;
+                    stringFormat.LineAlignment = StringAlignment.Center;
 
+                    //int neighbors = CountNeighbors(x, y);
                     // Fill the cell with a brush if alive
                     if (universe[x, y] == true)
                     {
-                        StringFormat stringFormat = new StringFormat();
-                        stringFormat.Alignment = StringAlignment.Center;
-                        stringFormat.LineAlignment = StringAlignment.Center;
-
                         e.Graphics.FillRectangle(cellBrush, cellRect);
-                        e.Graphics.DrawString(Neighbors[x, y].ToString(), font, Brushes.Black, cellRect, stringFormat); ;
                     }
-
+                    e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat) ;
+                    
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
@@ -203,7 +198,11 @@ namespace GameOfLife
 
                 // Toggle the cell's state
                 universe[x, y] = !universe[x, y];
-                CountNeighbors(x, y);
+                //CountNeighbors(x, y);
+                //if (universe[x, y] == false)
+                //{
+                //    Neighbors[x, y] = 0;
+                //}
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
@@ -218,6 +217,7 @@ namespace GameOfLife
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            generations = 0;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -231,6 +231,7 @@ namespace GameOfLife
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
+            generations = 0;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
