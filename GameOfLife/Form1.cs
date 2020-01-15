@@ -279,5 +279,15 @@ namespace GameOfLife
             NextGeneration();
         }
 
+        private void backcolorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            //cd.Color = //BaseColor
+
+            if ( DialogResult.OK == cd.ShowDialog()){
+                //BaseColor = cd.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
     }
 }
