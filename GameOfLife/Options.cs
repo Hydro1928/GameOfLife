@@ -16,5 +16,44 @@ namespace GameOfLife
         {
             InitializeComponent();
         }
+
+        public int timerInterval
+        {
+            get
+            {
+                return (int)numericUpDown1.Value;
+            }
+
+            set
+            {
+                numericUpDown1.Value = value;
+            }
+        }
+
+        public int WidthUniverse
+        {
+            get
+            {
+                return (int)numericUpDown2.Value;
+            }
+
+            set
+            {
+                numericUpDown2.Value = value;
+            }
+        }
+
+        public int HightUniverse
+        {
+            get
+            {
+                return (int)numericUpDown3.Value;
+            }
+
+            set
+            {
+                numericUpDown3.Value = value;
+            }
+        }
     }
 }

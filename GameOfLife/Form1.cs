@@ -282,10 +282,47 @@ namespace GameOfLife
         private void backcolorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog cd = new ColorDialog();
-            //cd.Color = //BaseColor
+            cd.Color = graphicsPanel1.BackColor;
 
-            if ( DialogResult.OK == cd.ShowDialog()){
-                //BaseColor = cd.Color;
+            if (DialogResult.OK == cd.ShowDialog())
+            {
+                graphicsPanel1.BackColor = cd.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Options opt = new Options();
+            
+        }
+
+        private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Seed seed = new Seed();
+
+        }
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            cd.Color = cellColor;
+
+            if (DialogResult.OK == cd.ShowDialog())
+            {
+                cellColor = cd.Color;
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            cd.Color = gridColor;
+
+            if (DialogResult.OK == cd.ShowDialog())
+            {
+                gridColor = cd.Color;
                 graphicsPanel1.Invalidate();
             }
         }
