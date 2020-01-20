@@ -262,9 +262,16 @@ namespace GameOfLife
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gridColor = Color.Black;
-            cellColor = Color.Gray;
-            graphicsPanel1.BackColor = Color.White;
+            Properties.Settings.Default.Reset();
+
+
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            gridColor = Properties.Settings.Default.GridColor;
+
+            //gridColor = Color.Black;
+            //cellColor = Color.Gray;
+            //graphicsPanel1.BackColor = Color.White;
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -361,6 +368,15 @@ namespace GameOfLife
             Properties.Settings.Default.CellColor = cellColor;
 
             Properties.Settings.Default.Save();
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            gridColor = Properties.Settings.Default.GridColor;
         }
     }
 }
