@@ -29,7 +29,9 @@ namespace GameOfLife
         public Form1()
         {
             InitializeComponent();
-
+            graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
+            cellColor = Properties.Settings.Default.CellColor;
+            gridColor = Properties.Settings.Default.GridColor;
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
@@ -288,7 +290,7 @@ namespace GameOfLife
             if (DialogResult.OK == cd.ShowDialog())
             {
                 graphicsPanel1.BackColor = cd.Color;
-                graphicsPanel1.Invalidate();
+                //graphicsPanel1.Invalidate();
             }
         }
 
@@ -326,6 +328,39 @@ namespace GameOfLife
                 gridColor = cd.Color;
                 graphicsPanel1.Invalidate();
             }
+        }
+        private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            //Random number
+            Random rand = new Random();
+            int MainSeed = rand.Next();
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    int randy = rand.Next(MainSeed);
+                    if (randy % 2 == 0)
+                    {
+                        universe[x, y] = false;
+                    }
+                    else
+                    {
+                        universe[x, y] = true;
+                    }
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.GridColor = gridColor;
+            Properties.Settings.Default.BackroundColor = graphicsPanel1.BackColor;
+            Properties.Settings.Default.CellColor = cellColor;
+
+            Properties.Settings.Default.Save();
         }
     }
 }
