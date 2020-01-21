@@ -13,7 +13,7 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[20, 20];
+        bool[,] universe = new bool[Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHight];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -23,7 +23,7 @@ namespace GameOfLife
         Timer timer = new Timer();
 
         //Input For random
-        int InputRand;
+        //int InputRand;
 
         //Alive Cell count
         public int CellCount = 0;
@@ -179,7 +179,7 @@ namespace GameOfLife
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
-                    Font font = new Font("Arial", 20f);
+                    Font font = new Font("Arial", 12f);
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
                     stringFormat.LineAlignment = StringAlignment.Center;
@@ -190,7 +190,11 @@ namespace GameOfLife
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
-                    e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat) ;
+                    if(CountNeighbors(x,y) >= 1)
+                    {
+                        e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat);
+                    }
+                    //e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat) ;
                     
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
@@ -334,18 +338,18 @@ namespace GameOfLife
 
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Seed seed = new Seed();
-            seed.ShowDialog();
-            InputRand = (int)seed.numericUpDown1.Value;
-
+            //Random number
             Random rand = new Random();
-            int MainSeed = rand.Next(InputRand);
+            int MainSeed = rand.Next();
+
+            toolStripStatusLabel2.Text = "Seed = " + MainSeed;
+            int mSeed1 = MainSeed;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int randy = rand.Next(MainSeed);
+                    int randy = rand.Next(mSeed1);
                     if (randy % 2 == 0)
                     {
                         universe[x, y] = false;
@@ -354,6 +358,7 @@ namespace GameOfLife
                     {
                         universe[x, y] = true;
                     }
+                    mSeed1++;
                 }
             }
             graphicsPanel1.Invalidate();
@@ -389,12 +394,15 @@ namespace GameOfLife
             //Random number
             Random rand = new Random();
             int MainSeed = rand.Next();
+
+            toolStripStatusLabel2.Text = "Seed = " + MainSeed;
+            int mSeed1 = MainSeed;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int randy = rand.Next(MainSeed);
+                    int randy = rand.Next(mSeed1);
                     if (randy % 2 == 0)
                     {
                         universe[x, y] = false;
@@ -403,6 +411,7 @@ namespace GameOfLife
                     {
                         universe[x, y] = true;
                     }
+                    mSeed1++;
                 }
             }
             graphicsPanel1.Invalidate();

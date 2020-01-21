@@ -28,42 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonApply = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.ButtonRandomize = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // buttonApply
             // 
-            this.button1.Location = new System.Drawing.Point(51, 73);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Apply";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonApply.Location = new System.Drawing.Point(51, 73);
+            this.buttonApply.Name = "buttonApply";
+            this.buttonApply.Size = new System.Drawing.Size(75, 23);
+            this.buttonApply.TabIndex = 0;
+            this.buttonApply.Text = "Apply";
+            this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // buttonCancel
             // 
-            this.button2.Location = new System.Drawing.Point(155, 72);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonCancel.Location = new System.Drawing.Point(155, 72);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 1;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // ButtonRandomize
             // 
-            this.button3.Location = new System.Drawing.Point(195, 25);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Randomize";
-            this.button3.UseVisualStyleBackColor = true;
+            this.ButtonRandomize.Location = new System.Drawing.Point(195, 25);
+            this.ButtonRandomize.Name = "ButtonRandomize";
+            this.ButtonRandomize.Size = new System.Drawing.Size(75, 23);
+            this.ButtonRandomize.TabIndex = 2;
+            this.ButtonRandomize.Text = "Randomize";
+            this.ButtonRandomize.UseVisualStyleBackColor = true;
+            this.ButtonRandomize.Click += new System.EventHandler(this.button3_Click);
             // 
             // numericUpDown1
             // 
@@ -99,9 +100,9 @@
             this.ClientSize = new System.Drawing.Size(319, 109);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ButtonRandomize);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonApply);
             this.Name = "Seed";
             this.Text = "Seed";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
@@ -112,9 +113,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonApply;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button ButtonRandomize;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.NumericUpDown numericUpDown1;
     }

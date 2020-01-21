@@ -24,14 +24,23 @@ namespace GameOfLife
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Apply Button
             //Apply
             
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //Cancel Button
             //Cancel
             this.Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Randomize Button
+            Random rng = new Random();
+            int box = rng.Next(10000);
         }
     }
 }

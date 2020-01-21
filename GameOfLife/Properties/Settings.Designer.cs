@@ -58,5 +58,41 @@ namespace GameOfLife.Properties {
                 this["GridColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int UniverseWidth {
+            get {
+                return ((int)(this["UniverseWidth"]));
+            }
+            set {
+                this["UniverseWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int UniverseHight {
+            get {
+                return ((int)(this["UniverseHight"]));
+            }
+            set {
+                this["UniverseHight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int Interval {
+            get {
+                return ((int)(this["Interval"]));
+            }
+            set {
+                this["Interval"] = value;
+            }
+        }
     }
 }
