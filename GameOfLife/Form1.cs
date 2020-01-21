@@ -14,7 +14,6 @@ namespace GameOfLife
     {
         // The universe array
         bool[,] universe = new bool[20, 20];
-        public int AliveCell { get; private set; }
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -22,6 +21,12 @@ namespace GameOfLife
 
         // The Timer class
         Timer timer = new Timer();
+
+        //Input For random
+        int InputRand;
+
+        //Alive Cell count
+        public int CellCount = 0;
 
         // Generation count
         int generations = 0;
@@ -84,10 +89,24 @@ namespace GameOfLife
             
             return count;
         }
+        public int CountCell()
+        {
+            int count = 0;
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    if (universe[x,y])
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
         // Calculate the next generation of cells
         private void NextGeneration()
-        {
-            AliveCell = 0;            
+        {          
             bool[,] scratchPad = new bool[universe.GetLength(0), universe.GetLength(1)];
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -177,6 +196,8 @@ namespace GameOfLife
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
+            CellCount = CountCell();
+            toolStripStatusLabel1.Text = "Number of alive cells = " + CellCount.ToString();
 
             // Cleaning up pens and brushes
             gridPen.Dispose();
@@ -220,6 +241,7 @@ namespace GameOfLife
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             generations = 0;
+            CellCount = 0;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -234,6 +256,7 @@ namespace GameOfLife
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
             generations = 0;
+            CellCount = 0;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -304,12 +327,36 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Options opt = new Options();
+            opt.ShowDialog();
+
             
         }
 
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Seed seed = new Seed();
+            seed.ShowDialog();
+            InputRand = (int)seed.numericUpDown1.Value;
+
+            Random rand = new Random();
+            int MainSeed = rand.Next(InputRand);
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    int randy = rand.Next(MainSeed);
+                    if (randy % 2 == 0)
+                    {
+                        universe[x, y] = false;
+                    }
+                    else
+                    {
+                        universe[x, y] = true;
+                    }
+                }
+            }
+            graphicsPanel1.Invalidate();
 
         }
 

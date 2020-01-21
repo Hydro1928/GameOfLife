@@ -16,5 +16,22 @@ namespace GameOfLife
         {
             InitializeComponent();
         }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int input = (int)numericUpDown1.Value;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Apply
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Cancel
+            this.Close();
+        }
     }
 }
