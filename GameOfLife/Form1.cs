@@ -23,7 +23,6 @@ namespace GameOfLife
         Color cellColor = Color.Gray;
 
         // The Timer class
-        int Intervally = 100;
         Timer timer = new Timer();
 
         //Alive Cell count
@@ -39,7 +38,7 @@ namespace GameOfLife
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             // Setup the timer
-            timer.Interval = Intervally; // milliseconds
+            timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -355,9 +354,12 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Options opt = new Options();
+            bool[,] temp;
             if(DialogResult.OK == opt.ShowDialog())
             {
-
+                temp = new bool[(int)opt.numericUpDown2.Value, (int)opt.numericUpDown3.Value];
+                universe = temp;
+                timer.Interval = (int)opt.numericUpDown1.Value;
             }
             graphicsPanel1.Invalidate();
             
