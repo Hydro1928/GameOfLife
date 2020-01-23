@@ -184,32 +184,34 @@
             this.toolStripMenu_Grid.Checked = true;
             this.toolStripMenu_Grid.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_Grid.Name = "toolStripMenu_Grid";
-            this.toolStripMenu_Grid.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenu_Grid.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_Grid.Text = "Grid";
+            this.toolStripMenu_Grid.Click += new System.EventHandler(this.toolStripMenu_Grid_Click);
             // 
             // toolStripMenu_NeighborCount
             // 
             this.toolStripMenu_NeighborCount.Checked = true;
             this.toolStripMenu_NeighborCount.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_NeighborCount.Name = "toolStripMenu_NeighborCount";
-            this.toolStripMenu_NeighborCount.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenu_NeighborCount.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_NeighborCount.Text = "Neighbor Count";
+            this.toolStripMenu_NeighborCount.Click += new System.EventHandler(this.toolStripMenu_NeighborCount_Click);
             // 
             // toolStripMenu_HUD
             // 
             this.toolStripMenu_HUD.Name = "toolStripMenu_HUD";
-            this.toolStripMenu_HUD.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenu_HUD.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_HUD.Text = "HUD";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(157, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenu_Toroidal
             // 
             this.toolStripMenu_Toroidal.Name = "toolStripMenu_Toroidal";
-            this.toolStripMenu_Toroidal.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenu_Toroidal.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_Toroidal.Text = "Toroidal";
             // 
             // toolStripMenu_Finite
@@ -217,7 +219,7 @@
             this.toolStripMenu_Finite.Checked = true;
             this.toolStripMenu_Finite.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_Finite.Name = "toolStripMenu_Finite";
-            this.toolStripMenu_Finite.Size = new System.Drawing.Size(160, 22);
+            this.toolStripMenu_Finite.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_Finite.Text = "Finite";
             // 
             // runToolStripMenuItem

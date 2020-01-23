@@ -190,14 +190,21 @@ namespace GameOfLife
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
                     }
-                    if(CountNeighbors(x,y) >= 1)
+                    if (toolStripMenu_NeighborCount.Checked)
                     {
-                        e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat);
+                        if (CountNeighbors(x, y) >= 1)
+                        {
+                            e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat);
+                        }
                     }
                     //e.Graphics.DrawString(CountNeighbors(x, y).ToString(), font, Brushes.Black, cellRect, stringFormat) ;
                     
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    if (toolStripMenu_Grid.Checked)
+                    {
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
+                    
                 }
             }
             CellCount = CountCell();
@@ -261,6 +268,22 @@ namespace GameOfLife
         {
             generations = 0;
             CellCount = 0;
+            timer.Stop();
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+        public void New()
+        {
+            generations = 0;
+            CellCount = 0;
+            timer.Stop();
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -338,30 +361,41 @@ namespace GameOfLife
 
         private void fromSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Random number
-            Random rand = new Random();
-            int MainSeed = rand.Next();
-
-            toolStripStatusLabel2.Text = "Seed = " + MainSeed;
-            int mSeed1 = MainSeed;
-            for (int y = 0; y < universe.GetLength(1); y++)
+            Seed seed = new Seed();
+            if(DialogResult.OK == seed.ShowDialog())
             {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
+                New();
+
+                //string seedinputstring = seed.numericUpDown1.ToString();
+                int seedinputint = (int)seed.numericUpDown1.Value;// seedinputstring.GetHashCode();
+
+                //Random number
+
+                toolStripStatusLabel2.Text = "Seed = " + seedinputint;
+                int mSeed1 = seedinputint;
+
+                Random rand = new Random(mSeed1);
+                for (int y = 0; y < universe.GetLength(1); y++)
                 {
-                    int randy = rand.Next(mSeed1);
-                    if (randy % 2 == 0)
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < universe.GetLength(0); x++)
                     {
-                        universe[x, y] = false;
+                        int randy = rand.Next(mSeed1);
+                        if (randy % 2 == 0)
+                        {
+                            universe[x, y] = false;
+                        }
+                        else
+                        {
+                            universe[x, y] = true;
+                        }
+                        mSeed1++;
                     }
-                    else
-                    {
-                        universe[x, y] = true;
-                    }
-                    mSeed1++;
                 }
+                graphicsPanel1.Invalidate();
             }
-            graphicsPanel1.Invalidate();
+
+            
 
         }
 
@@ -433,6 +467,32 @@ namespace GameOfLife
             graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
+        }
+
+        private void toolStripMenu_NeighborCount_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenu_NeighborCount.Checked)
+            {
+                toolStripMenu_NeighborCount.Checked = false;
+            }
+            else
+            {
+                toolStripMenu_NeighborCount.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void toolStripMenu_Grid_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenu_Grid.Checked)
+            {
+                toolStripMenu_Grid.Checked = false;
+            }
+            else
+            {
+                toolStripMenu_Grid.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
         }
     }
 }
