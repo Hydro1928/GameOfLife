@@ -34,6 +34,7 @@ namespace GameOfLife
         public Form1()
         {
             InitializeComponent();
+            //Sets the colors based on the default
             graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
@@ -44,6 +45,7 @@ namespace GameOfLife
         }
         private int CountNeighbors(int x, int y)
         {
+            //Comments are wrong for posistion...
             int count = 0;
                 //Bottom Left
                 if (x - 1 >= 0 && y - 1 >= 0 && universe[x - 1, y - 1])
@@ -106,7 +108,7 @@ namespace GameOfLife
         }
         // Calculate the next generation of cells
         private void NextGeneration()
-        {          
+        {        //Game of Life Rules  
             bool[,] scratchPad = new bool[universe.GetLength(0), universe.GetLength(1)];
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -134,8 +136,11 @@ namespace GameOfLife
                     }
                 }
             }
+            //creates a temp universe and copies main universe.
             bool[,] temp = universe;
+            //Sets main universe to scratchpad
             universe = scratchPad;
+            //and scratch pad to temp universe
             scratchPad = temp;
             // Increment generation count
             generations++;
@@ -207,6 +212,7 @@ namespace GameOfLife
                     
                 }
             }
+            //Gets the amount of alive cells and prints them
             CellCount = CountCell();
             toolStripStatusLabel1.Text = "Number of alive cells = " + CellCount.ToString();
 
@@ -251,8 +257,10 @@ namespace GameOfLife
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //Clears the universe
             generations = 0;
             CellCount = 0;
+            timer.Stop();
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
@@ -266,6 +274,7 @@ namespace GameOfLife
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
+            //Creates a new universe and clears the varibles
             generations = 0;
             CellCount = 0;
             timer.Stop();
@@ -281,6 +290,7 @@ namespace GameOfLife
         }
         public void New()
         {
+            //this method is for clearing the universe and starting fresh
             generations = 0;
             CellCount = 0;
             timer.Stop();
@@ -312,6 +322,7 @@ namespace GameOfLife
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //resets the color to default
             Properties.Settings.Default.Reset();
 
 
@@ -326,16 +337,19 @@ namespace GameOfLife
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            // calls timer start
             timer.Start();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+            //calls timer stop
             timer.Stop();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            //calls next generation
             NextGeneration();
         }
 
@@ -343,7 +357,7 @@ namespace GameOfLife
         {
             ColorDialog cd = new ColorDialog();
             cd.Color = graphicsPanel1.BackColor;
-
+            //sets backround color based on user input
             if (DialogResult.OK == cd.ShowDialog())
             {
                 graphicsPanel1.BackColor = cd.Color;
@@ -354,11 +368,15 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Options opt = new Options();
+            //Creating a temp bool
             bool[,] temp;
             if(DialogResult.OK == opt.ShowDialog())
             {
+                //making the temp bool the size that the user inputs
                 temp = new bool[(int)opt.numericUpDown2.Value, (int)opt.numericUpDown3.Value];
+                //Setting the universe the the user input []
                 universe = temp;
+                //Setting the timer interval to the user input
                 timer.Interval = (int)opt.numericUpDown1.Value;
             }
             graphicsPanel1.Invalidate();
@@ -375,17 +393,18 @@ namespace GameOfLife
                 //string seedinputstring = seed.numericUpDown1.ToString();
                 int seedinputint = (int)seed.numericUpDown1.Value;// seedinputstring.GetHashCode();
 
-                //Random number
 
                 toolStripStatusLabel2.Text = "Seed = " + seedinputint;
                 int mSeed1 = seedinputint;
 
+                //Creating a random based off the seed.
                 Random rand = new Random(mSeed1);
                 for (int y = 0; y < universe.GetLength(1); y++)
                 {
                     // Iterate through the universe in the x, left to right
                     for (int x = 0; x < universe.GetLength(0); x++)
                     {
+                        //Calling for a random number.
                         int randy = rand.Next(mSeed1);
                         if (randy % 2 == 0)
                         {
@@ -395,6 +414,7 @@ namespace GameOfLife
                         {
                             universe[x, y] = true;
                         }
+                        //Increasing the seed by 1 to make the seed the same every time
                         mSeed1++;
                     }
                 }
@@ -409,9 +429,10 @@ namespace GameOfLife
         {
             ColorDialog cd = new ColorDialog();
             cd.Color = cellColor;
-
+            //Shows the color dialog box
             if (DialogResult.OK == cd.ShowDialog())
             {
+                //sets the cell colors to the selected color
                 cellColor = cd.Color;
                 graphicsPanel1.Invalidate();
             }
@@ -421,9 +442,10 @@ namespace GameOfLife
         {
             ColorDialog cd = new ColorDialog();
             cd.Color = gridColor;
-
+            //shows the color dialog box
             if (DialogResult.OK == cd.ShowDialog())
             {
+                //Sets the grid color to the selected color
                 gridColor = cd.Color;
                 graphicsPanel1.Invalidate();
             }
@@ -431,17 +453,19 @@ namespace GameOfLife
         private void fromTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            //Random number
+            //Random number based from time
             Random rand = new Random();
             int MainSeed = rand.Next();
-
+            //displays the seed in the form
             toolStripStatusLabel2.Text = "Seed = " + MainSeed;
+            //creates a temp seed to be adjusted
             int mSeed1 = MainSeed;
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
+                    //Randoms next based on the seed
                     int randy = rand.Next(mSeed1);
                     if (randy % 2 == 0)
                     {
@@ -451,6 +475,7 @@ namespace GameOfLife
                     {
                         universe[x, y] = true;
                     }
+                    //Increases to make the seed repeatable
                     mSeed1++;
                 }
             }
@@ -459,15 +484,17 @@ namespace GameOfLife
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //sets the default color to the color that was last used
             Properties.Settings.Default.GridColor = gridColor;
             Properties.Settings.Default.BackroundColor = graphicsPanel1.BackColor;
             Properties.Settings.Default.CellColor = cellColor;
-
+            //saves the color
             Properties.Settings.Default.Save();
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //sets the color to the last saved color in default
             Properties.Settings.Default.Reload();
 
             graphicsPanel1.BackColor = Properties.Settings.Default.BackroundColor;
@@ -477,6 +504,7 @@ namespace GameOfLife
 
         private void toolStripMenu_NeighborCount_Click(object sender, EventArgs e)
         {
+            //To enable or disable neighbor count displaying
             if (toolStripMenu_NeighborCount.Checked)
             {
                 toolStripMenu_NeighborCount.Checked = false;
@@ -490,6 +518,7 @@ namespace GameOfLife
 
         private void toolStripMenu_Grid_Click(object sender, EventArgs e)
         {
+            //to enable or disable the grid from showing
             if (toolStripMenu_Grid.Checked)
             {
                 toolStripMenu_Grid.Checked = false;
