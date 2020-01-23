@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +14,17 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[Properties.Settings.Default.UniverseWidth, Properties.Settings.Default.UniverseHight];
+        public static int iWidth = Properties.Settings.Default.UniverseWidth;
+        public static int iHight = Properties.Settings.Default.UniverseHight;
+        bool[,] universe = new bool[iWidth, iHight];
 
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
 
         // The Timer class
+        int Intervally = 100;
         Timer timer = new Timer();
-
-        //Input For random
-        //int InputRand;
 
         //Alive Cell count
         public int CellCount = 0;
@@ -38,11 +39,10 @@ namespace GameOfLife
             cellColor = Properties.Settings.Default.CellColor;
             gridColor = Properties.Settings.Default.GridColor;
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = Intervally; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
-        //int[,] Neighbors { get; set; }
         private int CountNeighbors(int x, int y)
         {
             int count = 0;
@@ -89,6 +89,7 @@ namespace GameOfLife
             
             return count;
         }
+        //Count the amount of alive cells
         public int CountCell()
         {
             int count = 0;
@@ -354,8 +355,11 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Options opt = new Options();
-            opt.ShowDialog();
+            if(DialogResult.OK == opt.ShowDialog())
+            {
 
+            }
+            graphicsPanel1.Invalidate();
             
         }
 
@@ -493,6 +497,111 @@ namespace GameOfLife
                 toolStripMenu_Grid.Checked = true;
             }
             graphicsPanel1.Invalidate();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                // Write any comments you want to include first.
+                // Prefix all comment strings with an exclamation point.
+                // Use WriteLine to write the strings to the file. 
+                // It appends a CRLF for you.
+                writer.WriteLine("!This is my comment.");
+
+                // Iterate through the universe one row at a time.
+                for (int y = 0; y < universe.GetLength(1); y++)
+                { 
+                    // Create a string to represent the current row.
+                    String currentRow = string.Empty;
+
+                    // Iterate through the current row one cell at a time.
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    { 
+                        // If the universe[x,y] is alive then append 'O' (capital O)
+                        // to the row string.
+
+                        // Else if the universe[x,y] is dead then append '.' (period)
+                        // to the row string.
+                    }
+
+                    // Once the current row has been read through and the 
+                    // string constructed then write it to the file using WriteLine.
+                }
+
+                // After all rows and columns have been written then close the file.
+                writer.Close();
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+
+                    // Get the length of the current row string
+                    // and adjust the maxWidth variable if necessary.
+                }
+
+                // Resize the current universe and scratchPad
+                // to the width and height of the file calculated above.
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+
+                    // If the row is not a comment then 
+                    // it is a row of cells and needs to be iterated through.
+                    for (int xPos = 0; xPos < row.Length; xPos++)
+                    {
+                        // If row[xPos] is a 'O' (capital O) then
+                        // set the corresponding cell in the universe to alive.
+
+                        // If row[xPos] is a '.' (period) then
+                        // set the corresponding cell in the universe to dead.
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
+            }
         }
     }
 }
