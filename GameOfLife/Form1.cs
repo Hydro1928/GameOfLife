@@ -43,10 +43,13 @@ namespace GameOfLife
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
+        
         private int CountNeighbors(int x, int y)
         {
-            //Comments are wrong for posistion...
-            int count = 0;
+            if (toolStripMenu_Finite.Checked)
+            {
+                //Comments are wrong for posistion...
+                int count = 0;
                 //Bottom Left
                 if (x - 1 >= 0 && y - 1 >= 0 && universe[x - 1, y - 1])
                 {
@@ -73,7 +76,7 @@ namespace GameOfLife
                     count++;
                 }
                 //Top Left
-                if (x - 1 >= 0 && y + 1 < universe.GetLength(1) && universe[x-1, y + 1])
+                if (x - 1 >= 0 && y + 1 < universe.GetLength(1) && universe[x - 1, y + 1])
                 {
                     count++;
                 }
@@ -87,8 +90,54 @@ namespace GameOfLife
                 {
                     count++;
                 }
-            
-            return count;
+
+                return count;
+            }
+            else
+            {
+                int xpos = universe.GetLength(0);
+                int ypos = universe.GetLength(1);
+                int leftx = ((x - 1) < 0) ? xpos - 1 : (x - 1);
+                int rightx = ((x + 1) >= xpos) ? 0 : (x + 1);
+                int topy = ((y - 1) < 0) ? ypos - 1 : (y - 1);
+                int bottomy = ((y + 1) >= ypos) ? 0 : (y + 1);
+
+                int count = 0;
+
+                if (rightx < xpos && universe[rightx, y])
+                {
+                    count++;
+                }
+                if (rightx < xpos && bottomy < ypos && universe[rightx, bottomy])
+                {
+                    count++;
+                }
+                if (bottomy < ypos && universe[x, bottomy])
+                {
+                    count++;
+                }
+                if (leftx >= 0 && universe[leftx, y])
+                {
+                    count++;
+                }
+                if (leftx >= 0 && topy >= 0 && universe[leftx, topy])
+                {
+                    count++;
+                }
+                if (topy >= 0 && universe[x, topy])
+                {
+                    count++;
+                }
+                if (leftx >= 0 && bottomy < ypos && universe[leftx, bottomy])
+                {
+                    count++;
+                }
+                if (rightx < xpos && topy >= 0 && universe[rightx, topy])
+                {
+                    count++;
+                }
+                return count;
+            }
         }
         //Count the amount of alive cells
         public int CountCell()
@@ -633,6 +682,36 @@ namespace GameOfLife
                 // Close the file.
                 reader.Close();
             }
+        }
+
+        private void toolStripMenu_Toroidal_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenu_Toroidal.Checked)
+            {
+                toolStripMenu_Toroidal.Checked = false;
+                toolStripMenu_Finite.Checked = true;
+            }
+            else
+            {
+                toolStripMenu_Toroidal.Checked = true;
+                toolStripMenu_Finite.Checked = false;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void toolStripMenu_Finite_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenu_Finite.Checked)
+            {
+                toolStripMenu_Toroidal.Checked = true;
+                toolStripMenu_Finite.Checked = false;
+            }
+            else
+            {
+                toolStripMenu_Toroidal.Checked = false;
+                toolStripMenu_Finite.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
         }
     }
 }
