@@ -644,10 +644,22 @@ namespace GameOfLife
 
                     // If the row begins with '!' then it is a comment
                     // and should be ignored.
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
 
                     // If the row is not a comment then it is a row of cells.
                     // Increment the maxHeight variable for each row read.
 
+                    else
+                    {
+                        maxHeight++;
+                        if (row.Length > maxWidth)
+                        {
+                            maxWidth = row.Length;
+                        }
+                    }
                     // Get the length of the current row string
                     // and adjust the maxWidth variable if necessary.
                 }
@@ -657,7 +669,7 @@ namespace GameOfLife
 
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
+                int temp = 0;
                 // Iterate through the file again, this time reading in the cells.
                 while (!reader.EndOfStream)
                 {
@@ -666,16 +678,34 @@ namespace GameOfLife
 
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
-
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
                     // If the row is not a comment then 
                     // it is a row of cells and needs to be iterated through.
-                    for (int xPos = 0; xPos < row.Length; xPos++)
+                    else
                     {
-                        // If row[xPos] is a 'O' (capital O) then
-                        // set the corresponding cell in the universe to alive.
+                        for (int xPos = 0; xPos < row.Length; xPos++)
+                        {
+                            // If row[xPos] is a 'O' (capital O) then
+                            // set the corresponding cell in the universe to alive.
+                            for (int x = 0; x < row.Length; x++)
+                            {
+                                if (row[x] == 'O')
+                                {
+                                    universe[x, temp] = true;
+                                }
+                                else
+                                {
+                                    universe[x, temp] = false;
+                                }
+                            }
+                            temp++;
+                            // If row[xPos] is a '.' (period) then
+                            // set the corresponding cell in the universe to dead.
+                        }
 
-                        // If row[xPos] is a '.' (period) then
-                        // set the corresponding cell in the universe to dead.
                     }
                 }
 
