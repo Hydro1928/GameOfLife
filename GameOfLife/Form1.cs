@@ -15,8 +15,8 @@ namespace GameOfLife
     {
         // The universe array
         public static int iWidth = Properties.Settings.Default.UniverseWidth;
-        public static int iHight = Properties.Settings.Default.UniverseHight;
-        bool[,] universe = new bool[iWidth, iHight];
+        public static int iHeight = Properties.Settings.Default.UniverseHight;
+        bool[,] universe = new bool[iWidth, iHeight];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -220,6 +220,7 @@ namespace GameOfLife
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
 
+
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -264,6 +265,14 @@ namespace GameOfLife
             //Gets the amount of alive cells and prints them
             CellCount = CountCell();
             toolStripStatusLabel1.Text = "Number of alive cells = " + CellCount.ToString();
+
+
+            //Setting up for the HUD
+            //Color temp = Color.FromArgb(128, 255, 0, 0);
+            //Brush HudBrush = new SolidBrush(temp);
+            //StringFormat stringFormat1 = new StringFormat();
+            //stringFormat1.Alignment = StringAlignment.Near;
+            //stringFormat1.LineAlignment = StringAlignment.Near;
 
             // Cleaning up pens and brushes
             gridPen.Dispose();
@@ -604,14 +613,21 @@ namespace GameOfLife
 
                     // Iterate through the current row one cell at a time.
                     for (int x = 0; x < universe.GetLength(0); x++)
-                    { 
+                    {
                         // If the universe[x,y] is alive then append 'O' (capital O)
                         // to the row string.
-
+                        if (universe[x,y])
+                        {
+                            currentRow += 'O';
+                        }
                         // Else if the universe[x,y] is dead then append '.' (period)
                         // to the row string.
+                        else
+                        {
+                            currentRow += '.';
+                        }
                     }
-
+                    writer.WriteLine(currentRow);
                     // Once the current row has been read through and the 
                     // string constructed then write it to the file using WriteLine.
                 }
@@ -667,6 +683,8 @@ namespace GameOfLife
                 // Resize the current universe and scratchPad
                 // to the width and height of the file calculated above.
 
+                universe = new bool[maxWidth, maxHeight];
+
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 int temp = 0;
@@ -686,8 +704,6 @@ namespace GameOfLife
                     // it is a row of cells and needs to be iterated through.
                     else
                     {
-                        for (int xPos = 0; xPos < row.Length; xPos++)
-                        {
                             // If row[xPos] is a 'O' (capital O) then
                             // set the corresponding cell in the universe to alive.
                             for (int x = 0; x < row.Length; x++)
@@ -704,13 +720,14 @@ namespace GameOfLife
                             temp++;
                             // If row[xPos] is a '.' (period) then
                             // set the corresponding cell in the universe to dead.
-                        }
+                        
 
                     }
                 }
 
                 // Close the file.
                 reader.Close();
+                graphicsPanel1.Invalidate();
             }
         }
 
