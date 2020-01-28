@@ -266,14 +266,19 @@ namespace GameOfLife
             CellCount = CountCell();
             toolStripStatusLabel1.Text = "Number of alive cells = " + CellCount.ToString();
 
+            if (toolStripMenu_HUD.Checked)
+            {
+                //Setting up for the HUD
+                Font fonty = new Font("Arial", 16f);
+                Color temp = Color.FromArgb(190, 255, 0, 0);
+                Brush HudBrush = new SolidBrush(temp);
+                StringFormat stringFormat1 = new StringFormat();
+                stringFormat1.Alignment = StringAlignment.Near;
+                stringFormat1.LineAlignment = StringAlignment.Near;
+                string HUDstring = "Generations = " + generations + " \nCell Count = " + CellCount;
+                e.Graphics.DrawString(HUDstring, fonty, HudBrush, 0, 0, stringFormat1);
 
-            //Setting up for the HUD
-            //Color temp = Color.FromArgb(128, 255, 0, 0);
-            //Brush HudBrush = new SolidBrush(temp);
-            //StringFormat stringFormat1 = new StringFormat();
-            //stringFormat1.Alignment = StringAlignment.Near;
-            //stringFormat1.LineAlignment = StringAlignment.Near;
-
+            }
             // Cleaning up pens and brushes
             gridPen.Dispose();
             cellBrush.Dispose();
@@ -757,6 +762,19 @@ namespace GameOfLife
             {
                 toolStripMenu_Toroidal.Checked = false;
                 toolStripMenu_Finite.Checked = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void toolStripMenu_HUD_Click(object sender, EventArgs e)
+        {
+            if (toolStripMenu_HUD.Checked)
+            {
+                toolStripMenu_HUD.Checked = false;
+            }
+            else
+            {
+                toolStripMenu_HUD.Checked = true;
             }
             graphicsPanel1.Invalidate();
         }

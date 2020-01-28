@@ -193,9 +193,12 @@
             // 
             // toolStripMenu_HUD
             // 
+            this.toolStripMenu_HUD.Checked = true;
+            this.toolStripMenu_HUD.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_HUD.Name = "toolStripMenu_HUD";
             this.toolStripMenu_HUD.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_HUD.Text = "HUD";
+            this.toolStripMenu_HUD.Click += new System.EventHandler(this.toolStripMenu_HUD_Click);
             // 
             // toolStripSeparator7
             // 
@@ -204,6 +207,8 @@
             // 
             // toolStripMenu_Toroidal
             // 
+            this.toolStripMenu_Toroidal.Checked = true;
+            this.toolStripMenu_Toroidal.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_Toroidal.Name = "toolStripMenu_Toroidal";
             this.toolStripMenu_Toroidal.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_Toroidal.Text = "Toroidal";
@@ -211,8 +216,6 @@
             // 
             // toolStripMenu_Finite
             // 
-            this.toolStripMenu_Finite.Checked = true;
-            this.toolStripMenu_Finite.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripMenu_Finite.Name = "toolStripMenu_Finite";
             this.toolStripMenu_Finite.Size = new System.Drawing.Size(180, 22);
             this.toolStripMenu_Finite.Text = "Finite";
