@@ -800,8 +800,8 @@ namespace GameOfLife
 
                 // Create a couple variables to calculate the width and height
                 // of the data in the file.
-                //int maxWidth = 0;
-                //int maxHeight = 0;
+                int maxWidth = 0;
+                int maxHeight = 0;
 
                 // Iterate through the file once to get its size.
                 while (!reader.EndOfStream)
@@ -819,14 +819,14 @@ namespace GameOfLife
                     // If the row is not a comment then it is a row of cells.
                     // Increment the maxHeight variable for each row read.
 
-                    //else
-                    //{
-                    //    maxHeight++;
-                    //    if (row.Length > maxWidth)
-                    //    {
-                    //        maxWidth = row.Length;
-                    //    }
-                    //}
+                    else
+                    {
+                        maxHeight++;
+                        if (row.Length > maxWidth)
+                        {
+                            maxWidth = row.Length;
+                        }
+                    }
                     // Get the length of the current row string
                     // and adjust the maxWidth variable if necessary.
                 }
@@ -848,6 +848,10 @@ namespace GameOfLife
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
                     if (row[0] == '!')
+                    {
+                        continue;
+                    }
+                    else if(maxWidth > universe.GetLength(0) || maxHeight > universe.GetLength(1))
                     {
                         continue;
                     }
