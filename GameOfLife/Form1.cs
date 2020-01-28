@@ -265,6 +265,15 @@ namespace GameOfLife
             //Gets the amount of alive cells and prints them
             CellCount = CountCell();
             toolStripStatusLabel1.Text = "Number of alive cells = " + CellCount.ToString();
+            string TORorFIN = string.Empty;
+            if (toolStripMenu_Toroidal.Checked)
+            {
+                TORorFIN = "Toroidal";
+            }
+            else
+            {
+                TORorFIN = "Finite";
+            }
 
             if (toolStripMenu_HUD.Checked)
             {
@@ -275,7 +284,7 @@ namespace GameOfLife
                 StringFormat stringFormat1 = new StringFormat();
                 stringFormat1.Alignment = StringAlignment.Near;
                 stringFormat1.LineAlignment = StringAlignment.Near;
-                string HUDstring = "Generations = " + generations + " \nCell Count = " + CellCount;
+                string HUDstring = "Generations = " + generations + " \nCell Count = " + CellCount + " \nBoundry Type = " + TORorFIN + " \nUniverse Size = " + universe.GetLength(0) + ", " + universe.GetLength(1);
                 e.Graphics.DrawString(HUDstring, fonty, HudBrush, 0, 0, stringFormat1);
 
             }
@@ -777,6 +786,100 @@ namespace GameOfLife
                 toolStripMenu_HUD.Checked = true;
             }
             graphicsPanel1.Invalidate();
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                //int maxWidth = 0;
+                //int maxHeight = 0;
+
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
+
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+
+                    //else
+                    //{
+                    //    maxHeight++;
+                    //    if (row.Length > maxWidth)
+                    //    {
+                    //        maxWidth = row.Length;
+                    //    }
+                    //}
+                    // Get the length of the current row string
+                    // and adjust the maxWidth variable if necessary.
+                }
+
+                // Resize the current universe and scratchPad
+                // to the width and height of the file calculated above.
+
+                //universe = new bool[maxWidth, maxHeight];
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+                int temp = 0;
+                // Iterate through the file again, this time reading in the cells.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+                    if (row[0] == '!')
+                    {
+                        continue;
+                    }
+                    // If the row is not a comment then 
+                    // it is a row of cells and needs to be iterated through.
+                    else
+                    {
+                        // If row[xPos] is a 'O' (capital O) then
+                        // set the corresponding cell in the universe to alive.
+                        for (int x = 0; x < row.Length; x++)
+                        {
+                            if (row[x] == 'O')
+                            {
+                                universe[x, temp] = true;
+                            }
+                            else
+                            {
+                                universe[x, temp] = false;
+                            }
+                        }
+                        temp++;
+                        // If row[xPos] is a '.' (period) then
+                        // set the corresponding cell in the universe to dead.
+
+
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
+                graphicsPanel1.Invalidate();
+            }
         }
     }
 }
