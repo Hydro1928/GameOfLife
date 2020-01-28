@@ -834,7 +834,10 @@ namespace GameOfLife
                 // Resize the current universe and scratchPad
                 // to the width and height of the file calculated above.
 
-                //universe = new bool[maxWidth, maxHeight];
+                if (maxWidth > universe.GetLength(0) || maxHeight > universe.GetLength(1))
+                {
+                    universe = new bool[maxWidth, maxHeight];
+                }
 
                 // Reset the file pointer back to the beginning of the file.
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
@@ -848,10 +851,6 @@ namespace GameOfLife
                     // If the row begins with '!' then
                     // it is a comment and should be ignored.
                     if (row[0] == '!')
-                    {
-                        continue;
-                    }
-                    else if(maxWidth > universe.GetLength(0) || maxHeight > universe.GetLength(1))
                     {
                         continue;
                     }
